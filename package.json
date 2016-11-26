@@ -5,15 +5,21 @@
   "main": "index.html",
   "dependencies": {
     "express": "^4.14.0",
-    "socket.io": "^1.5.1"
+    "npm-run-all": "^3.1.1",
+    "socket.io": "^1.5.1",
+    "socket.io-client": "^1.6.0"
   },
   "devDependencies": {
     "browserify": "^13.1.1",
+    "nodemon": "^1.11.0",
     "rollupify": "^0.3.5",
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "bundle-client": "watchify client/assets/js/main.js -o client/assets/js/bundle.js -t rollupify"
+    "bundle-client": "watchify client/assets/js/main.js -o client/assets/js/bundle.js -t rollupify -d -v",
+    "watch": "npm run bundle-client",
+    "server": "nodemon server/index.js",
+    "start": "npm-run-all --parallel watch server"
   },
   "repository": {
     "type": "git",
