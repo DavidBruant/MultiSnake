@@ -12,14 +12,24 @@ app.use(express.static(path.join(__dirname, '..', 'client')));
 
 const sockets = new Set();
 
-io.on('connection', function (socket) {
+io.on('connection', socket => {
     sockets.add(socket);
     console.log('connection');
 
-    socket.on('disconnect', function (socket) {
+    socket.on('disconnect', () => {
         sockets.delete(socket);
         console.log('disconnect');
     });
+
+    socket.on('message', msg => {
+        const {type} = msg;
+
+        for(let s of sockets){
+            if(s !== socket){
+                s.emit('message', msg);
+            }
+        }
+    })
 });
 
 
